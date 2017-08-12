@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -167,10 +168,13 @@ public class TakeHelper {
         }
     }
 
-    public static void clearFile(TakeParam param) {
-        param.clearFile();
+    public static void clearFile(Context context) {
+        File cacheFolder = new File(CacheFileUtil.getDiskCacheDir(context));
+        if (cacheFolder.exists() && cacheFolder.listFiles() != null) {
+            for (File file : cacheFolder.listFiles()) {
+                boolean result = file.delete();
+                Log.d(TAG, "Delete " + file.getAbsolutePath() + (result ? " succeeded" : " failed"));
+            }
+        }
     }
-
-
-
 }
