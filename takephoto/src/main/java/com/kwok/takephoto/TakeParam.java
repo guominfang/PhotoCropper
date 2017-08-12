@@ -3,6 +3,7 @@ package com.kwok.takephoto;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.support.v4.content.FileProvider;
 
 import java.io.File;
 
@@ -13,6 +14,7 @@ import java.io.File;
  */
 public class TakeParam {
 
+    private static final String AUTHORITY = ".fileprovider";
     private static final String CROP_TYPE = "image/*";
     private static final String OUTPUT_FORMAT = Bitmap.CompressFormat.JPEG.toString();
     private static final int DEFAULT_ASPECT = 1;
@@ -36,6 +38,7 @@ public class TakeParam {
 
     protected File mCropFile;   //剪切文件
     protected File mCameraFile; //拍照文件
+    protected File mCompressFile; //拍照文件
 
     protected Uri mCropUri;     //剪切文件Uri
     protected Uri mCameraUri;   //拍照文件Uri
@@ -105,14 +108,20 @@ public class TakeParam {
         mCameraUri = Uri.fromFile(mCameraFile);
     }
 
+    protected void createCameraFile7() {
+        mCameraFile = CacheFileUtil.getCacheFile(mContext, mCameraName);
+        String authority = mContext.getPackageName() + AUTHORITY;
+        mCameraUri = FileProvider.getUriForFile(mContext, authority, mCameraFile);
+    }
+
     protected void createCropFile() {
         mCropFile = CacheFileUtil.getCacheFile(mContext, mCropName);
         mCropUri = Uri.fromFile(mCropFile);
     }
 
     protected void createCompressFile() {
-        mCropFile = CacheFileUtil.getCacheFile(mContext, mCompressName);
-        mCropUri = Uri.fromFile(mCropFile);
+        mCompressFile = CacheFileUtil.getCacheFile(mContext, mCompressName);
+        mCompressUri = Uri.fromFile(mCompressFile);
     }
 
 }

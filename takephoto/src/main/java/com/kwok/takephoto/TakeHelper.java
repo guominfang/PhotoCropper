@@ -2,6 +2,7 @@ package com.kwok.takephoto;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -26,8 +27,18 @@ public class TakeHelper {
      */
     public static Intent buildCameraIntent(TakeParam params) {
         params.createCameraFile();
-        //TODO 可能需要适配7.0
         return new Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                .putExtra(MediaStore.EXTRA_OUTPUT, params.mCameraUri);
+    }
+
+    /**
+     * @param params 参数
+     * @return 7.0 打开相机Intent
+     */
+    public static Intent buildCameraIntent7(TakeParam params) {
+        params.createCameraFile7();
+        return new Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 .putExtra(MediaStore.EXTRA_OUTPUT, params.mCameraUri);
     }
 
@@ -156,5 +167,10 @@ public class TakeHelper {
         }
     }
 
-
+    public static void clearFile(Context context) {
+        File fileDir = new File(CacheFileUtil.getDiskCacheDir(context));
+        if (fileDir.exists()) {
+            fileDir.delete();
+        }
+    }
 }
