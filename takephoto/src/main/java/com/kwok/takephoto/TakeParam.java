@@ -124,4 +124,15 @@ public class TakeParam {
         mCompressUri = Uri.fromFile(mCompressFile);
     }
 
+    protected void clearFile() {
+        if (mCropFile != null) {
+            mCropFile.delete();
+        }
+        if (mCameraFile != null) {
+            mCameraFile.delete();
+        }
+        if (mCompressFile != null) {
+            mCompressFile.delete();
+        }
+    }
 }

@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements ITakePhotoListene
 
     @Override
     protected void onDestroy() {
-        TakeHelper.clearFile(this);
+        TakeHelper.clearFile(mParam);
         super.onDestroy();
     }
 }

@@ -167,10 +167,10 @@ public class TakeHelper {
         }
     }
 
-    public static void clearFile(Context context) {
-        File fileDir = new File(CacheFileUtil.getDiskCacheDir(context));
-        if (fileDir.exists()) {
-            fileDir.delete();
-        }
+    public static void clearFile(TakeParam param) {
+        param.clearFile();
     }
+
+
+
 }
