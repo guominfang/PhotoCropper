@@ -54,7 +54,7 @@ public void onAlbum(View view) {
  mTakeParam.isCompress = false;
 ```
 
-5. 处理回去找回调
+5. 处理回调
 ```
 @Override
 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -78,6 +78,12 @@ public class MainActivity extends AppCompatActivity implements ITakePhotoListene
         //获取到图片Uri，显示在ImageView
         mImageView.setImageURI(uri);
     }
+
+    @Override
+    public void onCancel() {
+        //取消选择
+    }
+
 
     @Override
     public void onFailed() {
@@ -105,5 +111,3 @@ public class MainActivity extends AppCompatActivity implements ITakePhotoListene
 
 ### 感谢：
 [本库的设计模式主要是参考了已经停止维护的PhotoCropper](https://github.com/ryanhoo/PhotoCropper)
-
-
