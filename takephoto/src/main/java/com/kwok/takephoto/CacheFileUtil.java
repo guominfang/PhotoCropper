@@ -8,7 +8,7 @@ import java.io.IOException;
 
 /**
  * @author gmf
- * @description 缓存路径工具类
+ * @description 缓存文件工具类
  * @date 2017/8/11.
  */
 public class CacheFileUtil {

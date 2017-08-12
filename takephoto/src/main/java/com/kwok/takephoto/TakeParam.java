@@ -17,6 +17,9 @@ public class TakeParam {
     private static final String OUTPUT_FORMAT = Bitmap.CompressFormat.JPEG.toString();
     private static final int DEFAULT_ASPECT = 1;
     private static final int DEFAULT_OUTPUT = 300;
+    private static final int DEFAULT_COMPRESS_WIDTH = 640;
+    private static final int DEFAULT_COMPRESS_HEIGHT = 854;
+    private static final int DEFAULT_COMPRESS_QUALITY = 90;
 
     /**
      * RequestCode 如果用冲突，可以修改
@@ -29,18 +32,18 @@ public class TakeParam {
 
     private String mCropName;   //剪切文件名称
     private String mCameraName; //拍照文件名称
+    private String mCompressName; //压缩文件名称
 
     protected File mCropFile;   //剪切文件
     protected File mCameraFile; //拍照文件
 
     protected Uri mCropUri;     //剪切文件Uri
     protected Uri mCameraUri;   //拍照文件Uri
-
+    protected Uri mCompressUri; //压缩文件Uri
 
     protected String type;
     protected String outputFormat;  //输出格式，一般设为Bitmap格式：Bitmap.CompressFormat.JPEG.toString()
     protected String crop;          //发送裁剪信号
-
 
     protected boolean scale;    //是否保留比例
     protected boolean returnData;   //是否将数据保留在Bitmap中返回
@@ -64,12 +67,18 @@ public class TakeParam {
      */
     public boolean isCompress;
 
+    public int compressWidth;
+    public int compressHeight;
+    public int compressQuality;
+
+
     public TakeParam(Context context) {
         mContext = context;
 
         long currentTime = System.currentTimeMillis();
         mCropName = currentTime + "_crop_image.jpg";
-        mCameraName = currentTime + "_output_image.jpg";
+        mCameraName = currentTime + "_camera_image.jpg";
+        mCompressName = currentTime + "_compress_image.jpg";
 
         type = CROP_TYPE;
         outputFormat = OUTPUT_FORMAT;
@@ -85,6 +94,10 @@ public class TakeParam {
 
         isCrop = true;
         isCompress = false;
+
+        compressQuality = DEFAULT_COMPRESS_QUALITY;
+        compressWidth = DEFAULT_COMPRESS_WIDTH;
+        compressHeight = DEFAULT_COMPRESS_HEIGHT;
     }
 
     protected void createCameraFile() {
@@ -94,6 +107,11 @@ public class TakeParam {
 
     protected void createCropFile() {
         mCropFile = CacheFileUtil.getCacheFile(mContext, mCropName);
+        mCropUri = Uri.fromFile(mCropFile);
+    }
+
+    protected void createCompressFile() {
+        mCropFile = CacheFileUtil.getCacheFile(mContext, mCompressName);
         mCropUri = Uri.fromFile(mCropFile);
     }
 
