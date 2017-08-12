@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.io.File;
@@ -43,15 +44,14 @@ public class TakeHelper {
     }
 
     /**
-     *
-     * @param file
-     * @param param
-     * @return
+     * @param file  剪切原文件
+     * @param param 剪切参数
+     * @return 剪切Intent
      */
     private static Intent buildCropIntent(File file, TakeParam param) {
         param.createCropFile();
         Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(param.getImageContentUri(file), "image/*");//自己使用Content Uri替换File Uri
+        intent.setDataAndType(FileUrlUtil.getImageContentUri(param.mContext, file), "image/*");//自己使用Content Uri替换File Uri
         intent.putExtra("crop", "true");
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
@@ -65,14 +65,13 @@ public class TakeHelper {
         return intent;
     }
 
-    public static void handleResult(ITakePhotoListener handler, int requestCode, int resultCode, Intent data) {
-        if (handler == null) return;
-
-        if (resultCode == Activity.RESULT_CANCELED) {
-            handler.onCancel();
-            return;
-        }
-
+    /**
+     * @param handler     回调
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    public static void handleResult(@NonNull ITakePhotoListener handler, int requestCode, int resultCode, Intent data) {
         if (resultCode != Activity.RESULT_OK) {
             handler.onFailed();
             Log.e(TAG, "resultCode is not RESULT_OK");
@@ -85,20 +84,28 @@ public class TakeHelper {
     private static void handleResult(ITakePhotoListener handler, int requestCode, Intent data) {
         TakeParam param = handler.getTakeParam();
         if (param == null) {
+            Log.e(TAG, "ITakePhotoListener's TakeParam MUST NOT be null!");
             handler.onFailed();
-            Log.e(TAG, "ITakePhotoListener's params MUST NOT be null!");
             return;
         }
-        if (requestCode == param.requestCamera) {// 相机
-            if (param.isCrop) {
-                handler.startCropIntent(buildCropIntent(param.mCameraFile, param));
-            } else {
-                handler.onComplete(Uri.fromFile(param.mCameraFile));
-            }
-        } else if (requestCode == param.requestAlbum) { // 相册
+        if (requestCode == param.REQUEST_CODE_CAMERA) {//相机
+            handleCameraResult(handler, param);
+        } else if (requestCode == param.REQUEST_CODE_ALBUM) {//相册
             handleAlbumResult(handler, param, data);
-        } else if (requestCode == param.requestCrop) {
-            handler.onComplete(Uri.fromFile(new File(param.mCropPath)));
+        } else if (requestCode == param.REQUEST_CODE_CROP) {//剪切
+            handleCropResult(handler, param);
+        }
+    }
+
+    private static void handleCropResult(ITakePhotoListener handler, TakeParam param) {
+        handler.onComplete(Uri.fromFile(param.mCropFile));
+    }
+
+    private static void handleCameraResult(ITakePhotoListener handler, TakeParam param) {
+        if (param.isCrop) {
+            handler.startCropIntent(buildCropIntent(param.mCameraFile, param));
+        } else {
+            handler.onComplete(Uri.fromFile(param.mCameraFile));
         }
     }
 

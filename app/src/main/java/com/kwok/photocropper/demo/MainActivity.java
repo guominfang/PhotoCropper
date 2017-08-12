@@ -1,19 +1,16 @@
 package com.kwok.photocropper.demo;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.kwok.takephoto.ITakePhotoListener;
 import com.kwok.takephoto.TakeHelper;
 import com.kwok.takephoto.TakeParam;
-
-import java.io.File;
 
 public class MainActivity extends AppCompatActivity implements ITakePhotoListener {
 
@@ -30,15 +27,13 @@ public class MainActivity extends AppCompatActivity implements ITakePhotoListene
 
     public void onCamera(View view) {
         mParam = new TakeParam(this);
-        startActivityForResult(TakeHelper.buildCameraIntent(mParam), mParam.requestCamera);
+        startActivityForResult(TakeHelper.buildCameraIntent(mParam), mParam.REQUEST_CODE_CAMERA);
     }
-
 
     public void onAlbum(View view) {
         mParam = new TakeParam(this);
-        startActivityForResult(TakeHelper.buildAlbumIntent(), mParam.requestAlbum);
+        startActivityForResult(TakeHelper.buildAlbumIntent(), mParam.REQUEST_CODE_ALBUM);
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -48,24 +43,17 @@ public class MainActivity extends AppCompatActivity implements ITakePhotoListene
 
     @Override
     public void onComplete(Uri uri) {
-//        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
-//        mImageView.setImageBitmap(bitmap);
         mImageView.setImageURI(uri);
     }
 
     @Override
-    public void onCancel() {
-
-    }
-
-    @Override
     public void onFailed() {
-
+        Toast.makeText(this, "获取图片失败", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void startCropIntent(Intent intent) {
-        startActivityForResult(intent, mParam.requestCrop);
+        startActivityForResult(intent, mParam.REQUEST_CODE_CROP);
     }
 
     @Override

@@ -24,14 +24,22 @@ public class CacheFileUtil {
         return getDiskCacheDir(context) + File.separator + fileName;
     }
 
-
+    /**
+     * @param context  context
+     * @param fileName 缓存文件名称
+     * @return 获得缓存文件
+     */
     protected static File getCacheFile(Context context, String fileName) {
         if (isExistsDir(context)) {
-            return getCacheFile(getDiskCacheDir(context), fileName);
+            return createCacheFile(getDiskCacheDir(context), fileName);
         }
-        return getCacheFile(getAppDiskCacheDir(context), fileName);
+        return createCacheFile(getAppDiskCacheDir(context), fileName);
     }
 
+    /**
+     * @param context context
+     * @return 判断文件目录是否存在
+     */
     private static boolean isExistsDir(Context context) {
         File fileDir = new File(getDiskCacheDir(context));
         if (!fileDir.exists()) {
@@ -40,7 +48,12 @@ public class CacheFileUtil {
         return true;
     }
 
-    private static File getCacheFile(String parent, String fileName) {
+    /**
+     * @param parent   缓存目录
+     * @param fileName 缓存文件名称
+     * @return 创建缓存文件
+     */
+    private static File createCacheFile(String parent, String fileName) {
         File file = new File(parent, fileName);
 
         if (file.exists()) {
