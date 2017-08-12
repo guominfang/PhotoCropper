@@ -6,7 +6,6 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.DocumentsContract;
@@ -31,8 +30,9 @@ public class TakeHelper {
      */
     public static Intent buildCameraIntent(TakeParam params) {
         params.createCameraFile();
+        //TODO 可能需要适配7.0
         return new Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                .putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(params.mCameraFile));
+                .putExtra(MediaStore.EXTRA_OUTPUT, params.mCameraUri);
     }
 
     /**
@@ -51,17 +51,17 @@ public class TakeHelper {
     private static Intent buildCropIntent(File file, TakeParam param) {
         param.createCropFile();
         Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(FileUrlUtil.getImageContentUri(param.mContext, file), "image/*");//自己使用Content Uri替换File Uri
-        intent.putExtra("crop", "true");
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        intent.putExtra("outputX", 180);
-        intent.putExtra("outputY", 180);
-        intent.putExtra("scale", true);
-        intent.putExtra("return-data", false);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(param.mCropFile));//定义输出的File Uri
-        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-        intent.putExtra("noFaceDetection", true);
+        intent.setDataAndType(FileUrlUtil.getImageContentUri(param.mContext, file), param.type);//自己使用Content Uri替换File Uri
+        intent.putExtra("crop", param.crop);
+        intent.putExtra("aspectX", param.aspectX);
+        intent.putExtra("aspectY", param.aspectY);
+        intent.putExtra("outputX", param.outputX);
+        intent.putExtra("outputY", param.outputY);
+        intent.putExtra("scale", param.scale);
+        intent.putExtra("return-data", param.returnData);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, param.mCropUri);//定义输出的File Uri
+        intent.putExtra("outputFormat", param.outputFormat);
+        intent.putExtra("noFaceDetection", param.noFaceDetection);
         return intent;
     }
 
@@ -98,14 +98,14 @@ public class TakeHelper {
     }
 
     private static void handleCropResult(ITakePhotoListener handler, TakeParam param) {
-        handler.onComplete(Uri.fromFile(param.mCropFile));
+        handler.onComplete(param.mCropUri);
     }
 
     private static void handleCameraResult(ITakePhotoListener handler, TakeParam param) {
         if (param.isCrop) {
             handler.startCropIntent(buildCropIntent(param.mCameraFile, param));
         } else {
-            handler.onComplete(Uri.fromFile(param.mCameraFile));
+            handler.onComplete(param.mCameraUri);
         }
     }
 
