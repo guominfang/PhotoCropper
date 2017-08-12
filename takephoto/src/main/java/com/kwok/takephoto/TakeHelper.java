@@ -68,6 +68,11 @@ public class TakeHelper {
      * @param data
      */
     public static void handleResult(@NonNull ITakePhotoListener handler, int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_CANCELED) {
+            handler.onCancel();
+            return;
+        }
+
         if (resultCode != Activity.RESULT_OK) {
             handler.onFailed();
             Log.e(TAG, "resultCode is not RESULT_OK");

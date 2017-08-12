@@ -12,6 +12,8 @@ public interface ITakePhotoListener {
 
     void onComplete(Uri uri);
 
+    void onCancel();
+
     void onFailed();
 
     void startCropIntent(Intent intent);
