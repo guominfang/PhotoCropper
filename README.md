@@ -30,7 +30,7 @@
 
 
 ## 用法
-1. 打开相机
+1. 打开相机（）
 ```
 public void onCamera(View view) {
     mTakeParam = new TakeParam(this);
@@ -103,6 +103,60 @@ public class MainActivity extends AppCompatActivity implements ITakePhotoListene
         return mTakeParam;
     }
 ```
+
+7. 最后，最好选择在使用完毕时，选择清理的缓存的照片，如下：
+
+```
+    @Override
+    public void onComplete(Uri uri) {
+        mImageView.setImageURI(uri);
+        TakeHelper.clearFile(this);
+    }
+
+    //或者
+
+    @Override
+    protected void onDestroy() {
+        TakeHelper.clearFile(this);
+        super.onDestroy();
+    }
+```
+
+
+## 适配android 7.0
+1. 方法1 -- 在Application类种添加以下代码
+```
+public class App extends Application  {
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+            StrictMode.setVmPolicy(builder.build());
+        }
+    }
+}
+```
+
+2. 方法二 （相对麻烦）
+-  2.1在AndroidManifest
+
+```
+    <provider
+        android:name="android.support.v4.content.FileProvider"
+        android:authorities="${applicationId}.fileprovider"
+        android:exported="false"
+        android:grantUriPermissions="true">
+        <meta-data
+            android:name="android.support.FILE_PROVIDER_PATHS"
+            android:resource="@xml/provider_paths" />
+    </provider>
+```
+- 2.2  在项目资源文件下穿件xml 目录，并且在xml目录下创建一个文件，文件名需要和上一步resource属性的文件名相对应，入**provider_paths**，如下图
+![image](image/20170812223649.png)
+
+在上图的五个标签可以根据自己需求选择开启哪几个
 
 ## 其他
 库里面还有一些其他属性可以自定，详细情况可以查看

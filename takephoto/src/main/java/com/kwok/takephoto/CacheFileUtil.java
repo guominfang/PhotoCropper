@@ -18,15 +18,6 @@ public class CacheFileUtil {
     /**
      * @param context  context
      * @param fileName 缓存文件名称
-     * @return 完整的缓存文件路径
-     */
-    protected static String getCacheFilePath(Context context, String fileName) {
-        return getDiskCacheDir(context) + File.separator + fileName;
-    }
-
-    /**
-     * @param context  context
-     * @param fileName 缓存文件名称
      * @return 获得缓存文件
      */
     protected static File getCacheFile(Context context, String fileName) {

@@ -3,6 +3,7 @@ package com.kwok.takephoto;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v4.content.FileProvider;
 
 import java.io.File;
@@ -105,13 +106,12 @@ public class TakeParam {
 
     protected void createCameraFile() {
         mCameraFile = CacheFileUtil.getCacheFile(mContext, mCameraName);
-        mCameraUri = Uri.fromFile(mCameraFile);
-    }
-
-    protected void createCameraFile7() {
-        mCameraFile = CacheFileUtil.getCacheFile(mContext, mCameraName);
-        String authority = mContext.getPackageName() + AUTHORITY;
-        mCameraUri = FileProvider.getUriForFile(mContext, authority, mCameraFile);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            mCameraUri = Uri.fromFile(mCameraFile);
+        } else {//android 7.0以上
+            String authority = mContext.getPackageName() + AUTHORITY;
+            mCameraUri = FileProvider.getUriForFile(mContext, authority, mCameraFile);
+        }
     }
 
     protected void createCropFile() {
@@ -122,17 +122,5 @@ public class TakeParam {
     protected void createCompressFile() {
         mCompressFile = CacheFileUtil.getCacheFile(mContext, mCompressName);
         mCompressUri = Uri.fromFile(mCompressFile);
-    }
-
-    protected void clearFile() {
-        if (mCropFile != null) {
-            mCropFile.delete();
-        }
-        if (mCameraFile != null) {
-            mCameraFile.delete();
-        }
-        if (mCompressFile != null) {
-            mCompressFile.delete();
-        }
     }
 }

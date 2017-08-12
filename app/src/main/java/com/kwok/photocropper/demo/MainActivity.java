@@ -22,8 +22,7 @@ public class MainActivity extends AppCompatActivity implements ITakePhotoListene
     private ImageView mImageView;
 
     private static final int RC_CAMERA_PERMISSIONS = 20;
-    private static final int RC_CAMERA_PERMISSIONS7 = 21;
-    private static final int RC_ALBUM_PERMISSIONS = 22;
+    private static final int RC_ALBUM_PERMISSIONS = 21;
 
     private PermissionsUtil mPermissionsUtil;
 
@@ -49,23 +48,11 @@ public class MainActivity extends AppCompatActivity implements ITakePhotoListene
         }
     }
 
-    public void onCamera7(View view) {
-        if (mPermissionsUtil.lacksPermissions(mCameraPermissions)) {
-            ActivityCompat.requestPermissions(this, mCameraPermissions, RC_CAMERA_PERMISSIONS7);
-        } else {
-            openCamera7();
-        }
-    }
-
     private void openCamera() {
         mParam = new TakeParam(this);
         startActivityForResult(TakeHelper.buildCameraIntent(mParam), mParam.REQUEST_CODE_CAMERA);
     }
 
-    private void openCamera7() {
-        mParam = new TakeParam(this);
-        startActivityForResult(TakeHelper.buildCameraIntent7(mParam), mParam.REQUEST_CODE_CAMERA);
-    }
 
     public void onAlbum(View view) {
         if (mPermissionsUtil.lacksPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)) {
@@ -99,9 +86,6 @@ public class MainActivity extends AppCompatActivity implements ITakePhotoListene
             case RC_CAMERA_PERMISSIONS: //相机
                 openCamera();
                 break;
-            case RC_CAMERA_PERMISSIONS7: //相机
-                openCamera7();
-                break;
         }
     }
 
@@ -114,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements ITakePhotoListene
     @Override
     public void onComplete(Uri uri) {
         mImageView.setImageURI(uri);
+        TakeHelper.clearFile(this);
     }
 
     @Override

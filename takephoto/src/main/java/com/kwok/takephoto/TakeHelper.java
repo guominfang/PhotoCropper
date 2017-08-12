@@ -22,25 +22,19 @@ public class TakeHelper {
 
     private static final String TAG = "TakeHelper";
 
+
     /**
      * @param params 参数
      * @return 打开相机Intent
      */
     public static Intent buildCameraIntent(TakeParam params) {
         params.createCameraFile();
-        return new Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                .putExtra(MediaStore.EXTRA_OUTPUT, params.mCameraUri);
-    }
-
-    /**
-     * @param params 参数
-     * @return 7.0 打开相机Intent
-     */
-    public static Intent buildCameraIntent7(TakeParam params) {
-        params.createCameraFile7();
-        return new Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                .putExtra(MediaStore.EXTRA_OUTPUT, params.mCameraUri);
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        }
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, params.mCameraUri);
+        return intent;
     }
 
     /**
