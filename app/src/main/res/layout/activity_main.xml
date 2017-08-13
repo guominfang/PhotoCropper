@@ -9,6 +9,25 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/crop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="剪切"/>
+
+        <CheckBox
+            android:id="@+id/compress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="压缩"/>
+
+    </LinearLayout>
+
     <Button
         android:id="@+id/button0"
         android:layout_width="match_parent"

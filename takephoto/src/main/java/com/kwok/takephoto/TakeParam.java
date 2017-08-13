@@ -39,7 +39,7 @@ public class TakeParam {
 
     protected File mCropFile;   //剪切文件
     protected File mCameraFile; //拍照文件
-    protected File mCompressFile; //拍照文件
+    protected File mCompressFile; //压缩文件
 
     protected Uri mCropUri;     //剪切文件Uri
     protected Uri mCameraUri;   //拍照文件Uri

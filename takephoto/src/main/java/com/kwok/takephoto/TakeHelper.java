@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -41,7 +40,7 @@ public class TakeHelper {
      * @return 打开相册Intent
      */
     public static Intent buildAlbumIntent() {
-        return new Intent("android.intent.action.GET_CONTENT")
+        return new Intent(Intent.ACTION_GET_CONTENT)
                 .setType("image/*");
     }
 
@@ -153,7 +152,8 @@ public class TakeHelper {
     }
 
     private static void onTakePhoto(ITakePhotoListener handler, TakeParam param, Uri uri) {
-        if (param.isCompress) {
+        //TODO 压缩代完成
+        if (!param.isCrop && param.isCompress) {
             param.createCompressFile();
             CompressImageUtil.compressImageFile(param, uri, param.mCompressUri);
             handler.onComplete(param.mCompressUri);

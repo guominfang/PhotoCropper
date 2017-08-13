@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -17,25 +18,39 @@ import com.kwok.takephoto.TakeParam;
 
 public class MainActivity extends AppCompatActivity implements ITakePhotoListener {
 
-    private TakeParam mParam;
-
-    private ImageView mImageView;
-
     private static final int RC_CAMERA_PERMISSIONS = 20;
     private static final int RC_ALBUM_PERMISSIONS = 21;
-
-    private PermissionsUtil mPermissionsUtil;
 
     private static String[] mCameraPermissions = new String[]{
             Manifest.permission.CAMERA,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
+    private ImageView mImageView;
+    private CheckBox mCrop;
+    private CheckBox mCompress;
+
+    private TakeParam mParam;
+    private PermissionsUtil mPermissionsUtil;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mCrop = (CheckBox) findViewById(R.id.crop);
+        mCrop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCrop.setChecked(mCrop.isChecked());
+            }
+        });
+        mCompress = (CheckBox) findViewById(R.id.compress);
+        mCompress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCompress.setChecked(mCompress.isChecked());
+            }
+        });
         mImageView = (ImageView) findViewById(R.id.imageView);
         mPermissionsUtil = new PermissionsUtil(this);
     }
@@ -50,6 +65,8 @@ public class MainActivity extends AppCompatActivity implements ITakePhotoListene
 
     private void openCamera() {
         mParam = new TakeParam(this);
+        mParam.isCrop = mCrop.isChecked();
+        mParam.isCompress = mCompress.isChecked();
         startActivityForResult(TakeHelper.buildCameraIntent(mParam), mParam.REQUEST_CODE_CAMERA);
     }
 
@@ -64,6 +81,8 @@ public class MainActivity extends AppCompatActivity implements ITakePhotoListene
 
     private void openAlbum() {
         mParam = new TakeParam(this);
+        mParam.isCrop = mCrop.isChecked();
+        mParam.isCompress = mCompress.isChecked();
         startActivityForResult(TakeHelper.buildAlbumIntent(), mParam.REQUEST_CODE_ALBUM);
     }
 
@@ -98,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements ITakePhotoListene
     @Override
     public void onComplete(Uri uri) {
         mImageView.setImageURI(uri);
-        TakeHelper.clearFile(this);
+//        TakeHelper.clearFile(this);
     }
 
     @Override

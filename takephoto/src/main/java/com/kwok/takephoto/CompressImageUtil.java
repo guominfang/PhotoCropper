@@ -8,6 +8,7 @@ import android.util.Log;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
@@ -20,18 +21,21 @@ public class CompressImageUtil {
 
     protected static void compressImageFile(TakeParam takeParam, Uri originUri, Uri compressUri) {
         Bitmap bitmap = null;
+        InputStream is = null;
         OutputStream out = null;
         try {
-            final BitmapFactory.Options options = new BitmapFactory.Options();
+            is = takeParam.mContext.getContentResolver().openInputStream(originUri);
+            BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
-            BitmapFactory.decodeFile(originUri.getPath(), options);
+            BitmapFactory.decodeStream(is, null, options);
             // Calculate inSampleSize
             int minSideLength = takeParam.compressWidth > takeParam.compressHeight
                     ? takeParam.compressHeight : takeParam.compressWidth;
             options.inSampleSize = computeSampleSize(options, minSideLength, takeParam.compressWidth * takeParam.compressHeight);
             // Decode bitmap with inSampleSize set
             options.inJustDecodeBounds = false;
-            bitmap = BitmapFactory.decodeFile(originUri.getPath(), options);
+            is = takeParam.mContext.getContentResolver().openInputStream(originUri);
+            bitmap = BitmapFactory.decodeStream(is, null, options);
             File compressFile = new File(compressUri.getPath());
             if (!compressFile.exists()) {
                 boolean result = compressFile.createNewFile();
@@ -46,6 +50,9 @@ public class CompressImageUtil {
             if (bitmap != null)
                 bitmap.recycle();
             try {
+                if (is != null)
+                    is.close();
+
                 if (out != null)
                     out.close();
             } catch (IOException ignore) {
