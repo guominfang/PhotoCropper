@@ -11,7 +11,7 @@ import java.io.IOException;
  * @description 缓存文件工具类
  * @date 2017/8/11.
  */
-public class CacheFileUtil {
+class CacheFileUtil {
 
     private static final String TAKE_CACHE_FOLDER = "take_photo";
 
@@ -63,7 +63,7 @@ public class CacheFileUtil {
      * @param context context
      * @return 返回自定义缓存目录
      */
-    protected static String getDiskCacheDir(Context context) {
+    static String getDiskCacheDir(Context context) {
         return getAppDiskCacheDir(context) + File.separator + TAKE_CACHE_FOLDER;
     }
 

@@ -31,30 +31,30 @@ public class TakeParam {
     public int REQUEST_CODE_ALBUM = 8;
     public int REQUEST_CODE_CROP = 9;
 
-    protected Context mContext;
+    Context mContext;
 
     private String mCropName;   //剪切文件名称
     private String mCameraName; //拍照文件名称
     private String mCompressName; //压缩文件名称
 
-    protected File mCropFile;   //剪切文件
-    protected File mCameraFile; //拍照文件
-    protected File mCompressFile; //压缩文件
+    File mCropFile;   //剪切文件
+    File mCameraFile; //拍照文件
+    File mCompressFile; //压缩文件
 
-    protected Uri mCropUri;     //剪切文件Uri
-    protected Uri mCameraUri;   //拍照文件Uri
-    protected Uri mCompressUri; //压缩文件Uri
+    Uri mCropUri;     //剪切文件Uri
+    Uri mCameraUri;   //拍照文件Uri
+    Uri mCompressUri; //压缩文件Uri
 
-    protected String type;
-    protected String outputFormat;  //输出格式，一般设为Bitmap格式：Bitmap.CompressFormat.JPEG.toString()
-    protected String crop;          //发送裁剪信号
+    String type;
+    String outputFormat;  //输出格式，一般设为Bitmap格式：Bitmap.CompressFormat.JPEG.toString()
+    String crop;          //发送裁剪信号
 
-    protected boolean scale;    //是否保留比例
-    protected boolean returnData;   //是否将数据保留在Bitmap中返回
-    protected boolean noFaceDetection;//是否取消人脸识别功能
+    boolean scale;    //是否保留比例
+    boolean returnData;   //是否将数据保留在Bitmap中返回
+    boolean noFaceDetection;//是否取消人脸识别功能
 
-    protected int aspectX; //X方向上的比例
-    protected int aspectY; //Y方向上的比例
+    int aspectX; //X方向上的比例
+    int aspectY; //Y方向上的比例
 
     public int outputX; //裁剪区的宽
     public int outputY; //裁剪区的高
@@ -69,8 +69,17 @@ public class TakeParam {
      */
     public boolean isCompress;
 
+    /**
+     * 压缩宽度
+     */
     public int compressWidth;
+    /**
+     * 压缩高度
+     */
     public int compressHeight;
+    /**
+     * 压缩质量
+     */
     public int compressQuality;
 
 
@@ -102,7 +111,7 @@ public class TakeParam {
         compressHeight = DEFAULT_COMPRESS_HEIGHT;
     }
 
-    protected void createCameraFile() {
+    void createCameraFile() {
         mCameraFile = CacheFileUtil.getCacheFile(mContext, mCameraName);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             mCameraUri = Uri.fromFile(mCameraFile);
@@ -112,12 +121,12 @@ public class TakeParam {
         }
     }
 
-    protected void createCropFile() {
+    void createCropFile() {
         mCropFile = CacheFileUtil.getCacheFile(mContext, mCropName);
         mCropUri = Uri.fromFile(mCropFile);
     }
 
-    protected void createCompressFile() {
+    void createCompressFile() {
         mCompressFile = CacheFileUtil.getCacheFile(mContext, mCompressName);
         mCompressUri = Uri.fromFile(mCompressFile);
     }

@@ -16,10 +16,10 @@ import java.io.OutputStream;
  * @description 压缩图片
  * @date 2017/8/12.
  */
-public class CompressImageUtil {
+class CompressImageUtil {
     private static final String TAG = "CompressImageUtil";
 
-    protected static void compressImageFile(TakeParam takeParam, Uri originUri, Uri compressUri) {
+    static void compressImageFile(TakeParam takeParam, Uri originUri, Uri compressUri) {
         Bitmap bitmap = null;
         InputStream is = null;
         OutputStream out = null;

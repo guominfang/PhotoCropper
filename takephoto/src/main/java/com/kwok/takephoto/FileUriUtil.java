@@ -16,7 +16,7 @@ import java.io.File;
  * @description Uri 路径 相关
  * @date 2017/8/12.
  */
-public class FileUriUtil {
+class FileUriUtil {
 
     /**
      * 自己使用Content Uri替换File Uri
@@ -25,7 +25,7 @@ public class FileUriUtil {
      * @param imageFile 文件
      * @return Content Uri
      */
-    protected static Uri getImageContentUri(Context context, File imageFile) {
+    static Uri getImageContentUri(Context context, File imageFile) {
         String filePath = imageFile.getAbsolutePath();
         Cursor cursor = null;
         try {
@@ -57,7 +57,7 @@ public class FileUriUtil {
     }
 
     @TargetApi(19)
-    protected static String uriToPath(Context context, Uri uri) {
+    static String uriToPath(Context context, Uri uri) {
         String path = null;
         if (DocumentsContract.isDocumentUri(context, uri)) {
             // 如果是document类型的Uri，则通过document id处理
