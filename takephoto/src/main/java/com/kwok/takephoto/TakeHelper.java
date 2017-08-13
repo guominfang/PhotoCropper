@@ -21,7 +21,6 @@ public class TakeHelper {
 
     private static final String TAG = "TakeHelper";
 
-
     /**
      * @param params 参数
      * @return 打开相机Intent
@@ -152,7 +151,6 @@ public class TakeHelper {
     }
 
     private static void onTakePhoto(ITakePhotoListener handler, TakeParam param, Uri uri) {
-        //TODO 压缩代完成
         if (!param.isCrop && param.isCompress) {
             param.createCompressFile();
             CompressImageUtil.compressImageFile(param, uri, param.mCompressUri);

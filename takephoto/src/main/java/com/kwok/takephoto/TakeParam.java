@@ -53,10 +53,8 @@ public class TakeParam {
     protected boolean returnData;   //是否将数据保留在Bitmap中返回
     protected boolean noFaceDetection;//是否取消人脸识别功能
 
-
     protected int aspectX; //X方向上的比例
     protected int aspectY; //Y方向上的比例
-
 
     public int outputX; //裁剪区的宽
     public int outputY; //裁剪区的高
