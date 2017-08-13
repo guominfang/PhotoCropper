@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements ITakePhotoListene
     @Override
     public void onComplete(Uri uri) {
         mImageView.setImageURI(uri);
-        TakeHelper.clearFile(this);
+        //TakeHelper.clearFile(this);
     }
 
     //或者
@@ -156,14 +156,14 @@ public class App extends Application  {
             android:resource="@xml/provider_paths" />
     </provider>
 ```
-- 2.2  在项目资源文件下穿件xml 目录，并且在xml目录下创建一个文件，文件名需要和上一步resource属性的文件名相对应，入**provider_paths**，如下图
+- 2.2  在项目资源文件下创建xml 目录，并且在xml目录下创建一个文件，文件名需要和上一步resource属性的文件名相对应，如：**provider_paths**，如下图
 ![image](image/20170812223649.png)
 
-在上图的五个标签可以根据自己需求选择开启哪几个
+在上图的五个标签(**files-path**、**cache-path**、**external-path**、**external-files-path**、**external-cache-path**)可以根据自己缓存文件路径选择开启哪几个
 
 ## 其他
 库里面还有一些其他属性可以自定，详细情况可以查看
-[TakeParam](app/src/main/java/com/kwok/takephoto/TakeParam.java)
+[TakeParam](takephoto/src/main/java/com/kwok/takephoto/TakeParam.java)
 
 
 ### 感谢：
