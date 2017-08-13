@@ -23,13 +23,16 @@ public class TakeParam {
     private static final int DEFAULT_COMPRESS_WIDTH = 640;
     private static final int DEFAULT_COMPRESS_HEIGHT = 854;
     private static final int DEFAULT_COMPRESS_QUALITY = 90;
+    private static final int DEFAULT_REQUEST_CODE_CAMERA = 7;
+    private static final int DEFAULT_REQUEST_CODE_ALBUM = 8;
+    private static final int DEFAULT_REQUEST_CODE_CROP = 9;
 
     /**
      * RequestCode 如果用冲突，可以修改
      */
-    public int REQUEST_CODE_CAMERA = 7;
-    public int REQUEST_CODE_ALBUM = 8;
-    public int REQUEST_CODE_CROP = 9;
+    public int REQUEST_CODE_CAMERA;
+    public int REQUEST_CODE_ALBUM;
+    public int REQUEST_CODE_CROP;
 
     Context mContext;
 
@@ -90,6 +93,10 @@ public class TakeParam {
         mCropName = currentTime + "_crop_image.jpg";
         mCameraName = currentTime + "_camera_image.jpg";
         mCompressName = currentTime + "_compress_image.jpg";
+
+        REQUEST_CODE_CAMERA = DEFAULT_REQUEST_CODE_CAMERA;
+        REQUEST_CODE_ALBUM = DEFAULT_REQUEST_CODE_ALBUM;
+        REQUEST_CODE_CROP = DEFAULT_REQUEST_CODE_CROP;
 
         type = CROP_TYPE;
         outputFormat = OUTPUT_FORMAT;

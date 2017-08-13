@@ -62,7 +62,7 @@ public void onAlbum(View view) {
 @Override
 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-    TakeHelper.handleResult(this, requestCode, resultCode, data);
+    TakeHelper.handleResult(this, mTakeParam, requestCode, resultCode, data);
 }
 ```
 
@@ -98,12 +98,6 @@ public class MainActivity extends AppCompatActivity implements ITakePhotoListene
     public void startCropIntent(Intent intent) {
         //启动剪切功能
         startActivityForResult(intent, mParam.REQUEST_CODE_CROP);
-    }
-
-    @Override
-    public TakeParam getTakeParam() {
-        //返回获取照片参数
-        return mTakeParam;
     }
 ```
 

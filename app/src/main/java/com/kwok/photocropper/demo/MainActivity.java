@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements ITakePhotoListene
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        TakeHelper.handleResult(this, requestCode, resultCode, data);
+        TakeHelper.handleResult(this, mParam, requestCode, resultCode, data);
     }
 
     @Override
@@ -133,12 +133,6 @@ public class MainActivity extends AppCompatActivity implements ITakePhotoListene
     @Override
     public void startCropIntent(Intent intent) {
         startActivityForResult(intent, mParam.REQUEST_CODE_CROP);
-    }
-
-    @NonNull
-    @Override
-    public TakeParam getTakeParam() {
-        return null;
     }
 
     @Override

@@ -71,8 +71,8 @@ public class TakeHelper {
      * @param resultCode
      * @param data
      */
-    public static void handleResult(@NonNull ITakePhotoListener handler, int requestCode, int resultCode, Intent data) {
-        TakeParam param = handler.getTakeParam();
+    public static void handleResult(@NonNull ITakePhotoListener handler, TakeParam param,
+                                    int requestCode, int resultCode, Intent data) {
         if (param == null) {
             Log.e(TAG, "ITakePhotoListener's TakeParam MUST NOT be null!");
             return;
@@ -139,7 +139,7 @@ public class TakeHelper {
 
         if (param.isCrop) {
             String imagePath = FileUriUtil.uriToPath(param.mContext, uri);
-            Log.i(TAG, "file://" + imagePath + "选择图片的URI" + uri);
+            Log.i(TAG, "file:// " + imagePath + " 选择图片的URI " + uri);
             handler.startCropIntent(buildCropIntent(new File(imagePath), param));
         } else {
             onTakePhoto(handler, param, uri);
@@ -151,7 +151,7 @@ public class TakeHelper {
 
         if (param.isCrop) {
             String imagePath = FileUriUtil.getImagePath(param.mContext, uri, null);
-            Log.i(TAG, "file://" + imagePath + "选择图片的URI" + uri);
+            Log.i(TAG, "file:// " + imagePath + " 选择图片的URI " + uri);
             handler.startCropIntent(buildCropIntent(new File(imagePath), param));
         } else {
             onTakePhoto(handler, param, uri);
