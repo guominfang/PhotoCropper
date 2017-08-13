@@ -72,6 +72,15 @@ public class TakeHelper {
      * @param data
      */
     public static void handleResult(@NonNull ITakePhotoListener handler, int requestCode, int resultCode, Intent data) {
+        TakeParam param = handler.getTakeParam();
+        if (param == null) {
+            Log.e(TAG, "ITakePhotoListener's TakeParam MUST NOT be null!");
+            handler.onFailed();
+            return;
+        }
+        // 预防出现onActivityResult有多次回调，并且不是TakePhoto自身的回调
+        if (!isTakePhotoRequest(requestCode, param)) return;
+
         if (resultCode == Activity.RESULT_CANCELED) {
             handler.onCancel();
             return;
@@ -83,16 +92,16 @@ public class TakeHelper {
             return;
         }
 
-        handleResult(handler, requestCode, data);
+        handleResult(handler, param, requestCode, data);
     }
 
-    private static void handleResult(ITakePhotoListener handler, int requestCode, Intent data) {
-        TakeParam param = handler.getTakeParam();
-        if (param == null) {
-            Log.e(TAG, "ITakePhotoListener's TakeParam MUST NOT be null!");
-            handler.onFailed();
-            return;
-        }
+    private static boolean isTakePhotoRequest(int requestCode, TakeParam param) {
+        return requestCode == param.REQUEST_CODE_CAMERA ||
+                requestCode == param.REQUEST_CODE_ALBUM ||
+                requestCode == param.REQUEST_CODE_CROP;
+    }
+
+    private static void handleResult(ITakePhotoListener handler, TakeParam param, int requestCode, Intent data) {
         if (requestCode == param.REQUEST_CODE_CAMERA) {//相机
             handleCameraResult(handler, param);
         } else if (requestCode == param.REQUEST_CODE_ALBUM) {//相册
