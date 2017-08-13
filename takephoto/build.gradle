@@ -11,7 +11,6 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
     buildTypes {
         release {
@@ -29,3 +28,15 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
     testCompile 'junit:junit:4.12'
 }
+
+//// 自动化生成jar
+
+def TAKE_PHOTO_NAME = "takephoto-1.0.0.jar"
+task makeJar(type: Copy) {
+    delete '../outputs/' + TAKE_PHOTO_NAME
+    from('build/intermediates/bundles/default/')
+    into('../outputs')
+    include('classes.jar')
+    rename('classes.jar', TAKE_PHOTO_NAME)
+}
+makeJar.dependsOn(build)
