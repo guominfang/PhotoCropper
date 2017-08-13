@@ -135,11 +135,11 @@ public class MainActivity extends AppCompatActivity implements ITakePhotoListene
         startActivityForResult(intent, mParam.REQUEST_CODE_CROP);
     }
 
+    @NonNull
     @Override
     public TakeParam getTakeParam() {
-        return mParam;
+        return null;
     }
-
 
     @Override
     protected void onDestroy() {

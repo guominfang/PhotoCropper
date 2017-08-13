@@ -2,6 +2,7 @@ package com.kwok.takephoto;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 
 /**
  * @author gmf
@@ -18,6 +19,7 @@ public interface ITakePhotoListener {
 
     void startCropIntent(Intent intent);
 
+    @NonNull
     TakeParam getTakeParam();
 
 }

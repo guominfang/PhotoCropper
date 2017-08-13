@@ -75,7 +75,6 @@ public class TakeHelper {
         TakeParam param = handler.getTakeParam();
         if (param == null) {
             Log.e(TAG, "ITakePhotoListener's TakeParam MUST NOT be null!");
-            handler.onFailed();
             return;
         }
         // 预防出现onActivityResult有多次回调，并且不是TakePhoto自身的回调
