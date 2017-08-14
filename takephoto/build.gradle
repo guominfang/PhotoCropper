@@ -30,7 +30,6 @@ dependencies {
 }
 
 //// 自动化生成jar
-
 def TAKE_PHOTO_NAME = "takephoto-1.0.0.jar"
 task makeJar(type: Copy) {
     delete '../outputs/' + TAKE_PHOTO_NAME

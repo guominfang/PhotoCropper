@@ -39,7 +39,7 @@ public class TakeHelper {
      * @return 打开相册Intent
      */
     public static Intent buildAlbumIntent() {
-        return new Intent(Intent.ACTION_GET_CONTENT)
+        return new Intent(Intent.ACTION_PICK)
                 .setType("image/*");
     }
 
@@ -140,7 +140,7 @@ public class TakeHelper {
         if (param.isCrop) {
             String imagePath = FileUriUtil.uriToPath(param.mContext, uri);
             Log.i(TAG, "file:// " + imagePath + " 选择图片的URI " + uri);
-            handler.startCropIntent(buildCropIntent(new File(imagePath), param));
+            handleCrop(imagePath, handler, param);
         } else {
             onTakePhoto(handler, param, uri);
         }
@@ -148,18 +148,27 @@ public class TakeHelper {
 
     private static void handleImageBeforeKitKat(ITakePhotoListener handler, TakeParam param, Intent data) {
         Uri uri = data.getData();
-
+        Log.d(TAG, "handleImageBeforeKitKat: uri is " + uri);
         if (param.isCrop) {
             String imagePath = FileUriUtil.getImagePath(param.mContext, uri, null);
             Log.i(TAG, "file:// " + imagePath + " 选择图片的URI " + uri);
-            handler.startCropIntent(buildCropIntent(new File(imagePath), param));
+            handleCrop(imagePath, handler, param);
         } else {
             onTakePhoto(handler, param, uri);
         }
     }
 
+    private static void handleCrop(String imagePath, ITakePhotoListener handler, TakeParam param) {
+        File file = new File(imagePath);
+        if (file.exists()) {
+            handler.startCropIntent(buildCropIntent(file, param));
+        } else {
+            handler.onFailed();
+        }
+    }
+
     private static void onTakePhoto(ITakePhotoListener handler, TakeParam param, Uri uri) {
-        if (!param.isCrop && param.isCompress) {
+        if (param.isCompress) {
             param.createCompressFile();
             CompressImageUtil.compressImageFile(param, uri, param.mCompressUri);
             handler.onComplete(param.mCompressUri);
