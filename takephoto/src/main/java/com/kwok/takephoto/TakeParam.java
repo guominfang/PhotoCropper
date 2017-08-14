@@ -111,7 +111,7 @@ public class TakeParam {
         outputY = DEFAULT_OUTPUT;
 
         isCrop = true;
-        isCompress = false;
+        isCompress = true;
 
         compressQuality = DEFAULT_COMPRESS_QUALITY;
         compressWidth = DEFAULT_COMPRESS_WIDTH;

@@ -18,7 +18,7 @@
 - 相册获取图片
 - 剪切
 - 压缩
-###### 注： 剪切功能和压缩功能是互斥的，因为经过剪切后，图片本来就已经很小了，无须再压缩
+
 
 ## 注意
 **本库没有适配android 6.0 以上动态权限，所以如果需要使用此库前必须确保自己项目已经获取到以下三个权限**
@@ -52,9 +52,9 @@ public void onAlbum(View view) {
 ```
  mTakeParam.isCrop = true;
 ```
-4. 压缩设置(默认为 false)
+4. 压缩设置(默认为 true)
 ```
- mTakeParam.isCompress = false;
+ mTakeParam.isCompress = true;
 ```
 
 5. 处理回调

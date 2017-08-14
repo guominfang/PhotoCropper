@@ -14,7 +14,7 @@ import java.io.File;
 
 /**
  * @author gmf
- * @description 获取图片工具类
+ * @description 获取图片帮助类
  * @date 2017/8/11.
  */
 public class TakeHelper {
