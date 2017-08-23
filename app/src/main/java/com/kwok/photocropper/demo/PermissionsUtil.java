@@ -10,7 +10,12 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 
-
+/**
+ * 检查权限的工具类
+ *
+ * @author yfliu
+ * @date 2017/7/8
+ */
 public class PermissionsUtil {
     private static final String PACKAGE_URL_SCHEME = "package:"; // 方案
     private Context mContext;

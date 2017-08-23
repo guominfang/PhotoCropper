@@ -139,7 +139,7 @@ public class TakeHelper {
 
         if (param.isCrop) {
             String imagePath = FileUriUtil.uriToPath(param.mContext, uri);
-            Log.i(TAG, "file:// " + imagePath + " 选择图片的URI " + uri);
+            Log.d(TAG, "file:// " + imagePath + " 选择图片的URI " + uri);
             handleCrop(imagePath, handler, param);
         } else {
             onTakePhoto(handler, param, uri);
@@ -151,7 +151,7 @@ public class TakeHelper {
         Log.d(TAG, "handleImageBeforeKitKat: uri is " + uri);
         if (param.isCrop) {
             String imagePath = FileUriUtil.getImagePath(param.mContext, uri, null);
-            Log.i(TAG, "file:// " + imagePath + " 选择图片的URI " + uri);
+            Log.d(TAG, "file:// " + imagePath + " 选择图片的URI " + uri);
             handleCrop(imagePath, handler, param);
         } else {
             onTakePhoto(handler, param, uri);

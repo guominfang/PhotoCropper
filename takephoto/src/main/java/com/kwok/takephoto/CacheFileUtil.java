@@ -79,9 +79,6 @@ class CacheFileUtil {
                 return context.getExternalCacheDir().getPath();
             }
         }
-        //  .../data/data/你的应用包名/cache
-        return context.getCacheDir().getPath();
+        return Environment.getExternalStorageDirectory().getPath();
     }
-
-
 }

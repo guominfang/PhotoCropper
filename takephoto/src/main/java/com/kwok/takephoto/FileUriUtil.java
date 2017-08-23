@@ -80,7 +80,7 @@ class FileUriUtil {
         return path;
     }
 
-    protected static String getImagePath(Context context, Uri uri, String selection) {
+    static String getImagePath(Context context, Uri uri, String selection) {
         String path = null;
         // 通过Uri和selection来获取真实的图片路径
         Cursor cursor = context.getContentResolver().query(uri, null, selection, null, null);
